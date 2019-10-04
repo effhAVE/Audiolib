@@ -1,33 +1,40 @@
 <template>
-  <div class="container" id="app">
+  <div id="app">
     <header class="header">
       <h1 class="title">Audiopółka™</h1>
     </header>
-    <main class="hero">
-      <div class="hero-body is-centered">
-        <Form @resultsReceived="showResults" />
+    <main class="is-flex">
+      <Aside />
+      <div class="container">
+        <div class="hero">
+          <div class="hero-body is-centered">
+            <Form @resultsReceived="showResults" />
+          </div>
+        </div>
+        <Modal
+          :active.sync="showModal"
+          :isLoading="isLoading"
+          :discs="discs"
+          :pagination="pagination"
+          @paginationChange="getNewList"
+        />
       </div>
     </main>
-    <Modal
-      :active.sync="showModal"
-      :isLoading="isLoading"
-      :discs="discs"
-      :pagination="pagination"
-      @paginationChange="getNewList"
-    />
   </div>
 </template>
 
 <script>
 import Form from "./components/Form.vue";
 import Modal from "./components/Modal.vue";
+import Aside from "./components/Aside.vue";
 import APIRequest from "./API";
 
 export default {
   name: "app",
   components: {
     Form,
-    Modal
+    Modal,
+    Aside
   },
   data() {
     return {
@@ -65,6 +72,11 @@ export default {
   color: #2c3e50;
 }
 
+.hero {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
 .hero-body.is-centered {
   display: flex;
   justify-content: center;
@@ -84,9 +96,13 @@ export default {
 }
 
 .pagination {
-  margin-top: 2em !important;
-  .pagination-link {
+  margin-top: 2em;
+  .pagination-link:not(.is-current) {
     background: white;
+    transition: all 0.3s;
+    &:hover {
+      background-color: darken(white, 20);
+    }
   }
 }
 </style>

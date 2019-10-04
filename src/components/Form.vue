@@ -1,5 +1,5 @@
 <template>
-  <form action="">
+  <form>
     <b-field grouped>
       <b-field label="Wykonawca" :label-position="labelPosition">
         <b-input
@@ -86,6 +86,11 @@ form {
 
 .field {
   flex-grow: 2;
+  &.is-grouped {
+    .field {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .button {
