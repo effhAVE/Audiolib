@@ -37,12 +37,13 @@
 <script>
 export default {
   props: {
-    disc: Object
+    disc: Object,
+    inLibrary: Boolean
   },
 
   data() {
     return {
-      isAdded: false
+      isAdded: this.inLibrary
     };
   },
 
@@ -55,6 +56,11 @@ export default {
   methods: {
     discAdded() {
       this.isAdded = !this.isAdded;
+      if (this.isAdded) {
+        this.$emit("discAdded", this.disc);
+      } else {
+        this.$emit("discRemoved", this.disc);
+      }
     }
   }
 };

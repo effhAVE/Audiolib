@@ -10,6 +10,9 @@
         v-for="disc in discs"
         :disc="disc"
         :key="disc.id"
+        :inLibrary="inLibrary(disc.id)"
+        @discAdded="onDiscAdded"
+        @discRemoved="onDiscRemoved"
         class="list-item"
       />
     </transition-group>
@@ -40,7 +43,8 @@ export default {
     active: Boolean,
     isLoading: Boolean,
     discs: Array,
-    pagination: Object
+    pagination: Object,
+    addedDiscs: Array
   },
 
   data() {
@@ -61,6 +65,15 @@ export default {
     },
     onClose() {
       this.$emit("update:active", false);
+    },
+    onDiscAdded(event) {
+      this.$emit("discAdded", event);
+    },
+    onDiscRemoved(event) {
+      this.$emit("discRemoved", event);
+    },
+    inLibrary(id) {
+      return this.addedDiscs.some(el => id === el.id);
     }
   }
 };

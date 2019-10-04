@@ -4,7 +4,7 @@
       <h1 class="title">Audiopółka™</h1>
     </header>
     <main class="is-flex">
-      <Aside />
+      <Aside :addedDiscs="addedDiscs" :recentlyAdded="recentlyAdded" />
       <div class="container">
         <div class="hero">
           <div class="hero-body is-centered">
@@ -16,7 +16,10 @@
           :isLoading="isLoading"
           :discs="discs"
           :pagination="pagination"
+          :addedDiscs="addedDiscs"
           @paginationChange="getNewList"
+          @discAdded="onDiscAdded"
+          @discRemoved="onDiscRemoved"
         />
       </div>
     </main>
@@ -28,6 +31,7 @@ import Form from "./components/Form.vue";
 import Modal from "./components/Modal.vue";
 import Aside from "./components/Aside.vue";
 import APIRequest from "./API";
+import * as storage from "./libraryStorage";
 
 export default {
   name: "app",
@@ -41,6 +45,8 @@ export default {
       showModal: false,
       isLoading: false,
       discs: [],
+      addedDiscs: [],
+      recentlyAdded: [],
       pagination: {},
       query: {}
     };
@@ -58,12 +64,32 @@ export default {
       this.isLoading = true;
       let response = await APIRequest(this.query, event);
       this.showResults(response);
+    },
+    onDiscAdded(event) {
+      this.recentlyAdded.push(event);
+      this.addedDiscs.push(event);
+      storage.setStoredLibrary(this.addedDiscs);
+    },
+    onDiscRemoved(event) {
+      this.addedDiscs = storage.removeStoredDisc(event);
+      this.recentlyAdded = this.recentlyAdded.filter(el => el.id !== event.id);
     }
+  },
+
+  created() {
+    this.addedDiscs = storage.getStoredLibrary();
   }
 };
 </script>
 
 <style lang="scss">
+html,
+body {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

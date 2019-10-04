@@ -20,7 +20,7 @@
       </figure>
       <div class="media-content">
         <strong>Grzegorz Kowalczyk</strong>
-        <p>Dodanych płyt: 254</p>
+        <p>Dodanych płyt: {{ addedDiscs.length }}</p>
       </div>
     </article>
     <b-button
@@ -32,52 +32,23 @@
     <p class="menu-label">
       Ostatnio dodane
     </p>
-    <ul class="box">
-      <li class="media">
-        <figure class="media-left">
-          <p class="image is-32x32">
-            <img
-              src="https://www.hochschulsport.hu-berlin.de/de/studium-und-spitzensport/portraits/avatar/image_preview"
-            />
-          </p>
-        </figure>
-        <div class="media-content">
-          <strong>Tytuł</strong>
-          <p>Lorem ipsum</p>
-        </div>
-      </li>
-      <li class="media">
-        <figure class="media-left">
-          <p class="image is-32x32">
-            <img
-              src="https://www.hochschulsport.hu-berlin.de/de/studium-und-spitzensport/portraits/avatar/image_preview"
-            />
-          </p>
-        </figure>
-        <div class="media-content">
-          <strong>Tytuł</strong>
-          <p>Lorem ipsum</p>
-        </div>
-      </li>
-      <li class="media">
-        <figure class="media-left">
-          <p class="image is-32x32">
-            <img
-              src="https://www.hochschulsport.hu-berlin.de/de/studium-und-spitzensport/portraits/avatar/image_preview"
-            />
-          </p>
-        </figure>
-        <div class="media-content">
-          <strong>Tytuł</strong>
-          <p>Lorem ipsum</p>
-        </div>
-      </li>
+    <ul class="box" v-if="recentlyAdded.length">
+      <Disc v-for="disc in recentlyAdded" :key="disc.id" :disc="disc" />
     </ul>
   </aside>
 </template>
 
 <script>
+import Disc from "./aside-inner/Disc-recent.vue";
+
 export default {
+  props: {
+    addedDiscs: Array,
+    recentlyAdded: Array
+  },
+  components: {
+    Disc
+  },
   data() {
     return {
       isVisible: false,
@@ -115,6 +86,8 @@ export default {
   border-radius: 0;
   height: 100%;
   z-index: 9;
+  width: 300px;
+  max-width: 300px;
   &.is-visible {
     transform: translateX(0);
   }
