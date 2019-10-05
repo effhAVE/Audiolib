@@ -28,7 +28,7 @@
 
 <script>
 import Form from "./components/Form.vue";
-import Modal from "./components/Modal.vue";
+import Modal from "./components/SearchModal.vue";
 import Aside from "./components/Aside.vue";
 import APIRequest from "./API";
 import * as storage from "./libraryStorage";
@@ -129,6 +129,15 @@ body {
     &:hover {
       background-color: darken(white, 20);
     }
+  }
+}
+
+.library-modal.is-active {
+  display: block;
+
+  .animation-content {
+    margin: 0;
+    max-width: none;
   }
 }
 </style>

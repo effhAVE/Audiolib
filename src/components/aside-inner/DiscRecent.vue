@@ -1,7 +1,7 @@
 <template>
   <li class="media">
     <figure class="media-left">
-      <p class="image is-32x32">
+      <p class="image is-48x48">
         <img :src="disc.cover_image" />
       </p>
     </figure>

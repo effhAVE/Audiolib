@@ -19,7 +19,7 @@
         </p>
       </figure>
       <div class="media-content">
-        <strong>Grzegorz Kowalczyk</strong>
+        <strong>Nazwa użytkownika</strong>
         <p>Dodanych płyt: {{ addedDiscs.length }}</p>
       </div>
     </article>
@@ -27,6 +27,7 @@
       type="is-primary"
       icon-right="playlist-music"
       class="library-button"
+      @click="openLibrary"
       >Otwórz bibliotekę</b-button
     >
     <p class="menu-label">
@@ -39,7 +40,8 @@
 </template>
 
 <script>
-import Disc from "./aside-inner/Disc-recent.vue";
+import Disc from "./aside-inner/DiscRecent.vue";
+import Library from "./aside-inner/Library.vue";
 
 export default {
   props: {
@@ -52,8 +54,39 @@ export default {
   data() {
     return {
       isVisible: false,
-      buttonColored: false
+      changesChecked: true,
+      libraryOpened: false
     };
+  },
+
+  computed: {
+    buttonColored() {
+      if (this.isVisible) {
+        this.changesChecked = true;
+      }
+      return !this.isVisible && !this.changesChecked;
+    }
+  },
+
+  methods: {
+    openLibrary() {
+      const addedDiscs = this.addedDiscs;
+      this.$buefy.modal.open({
+        parent: this,
+        component: Library,
+        hasModalCard: true,
+        customClass: "library-modal",
+        props: {
+          addedDiscs
+        }
+      });
+    }
+  },
+
+  watch: {
+    recentlyAdded() {
+      this.changesChecked = false;
+    }
   }
 };
 </script>
