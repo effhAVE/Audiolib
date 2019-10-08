@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form autocomplete="on">
     <b-field grouped>
       <b-field label="Wykonawca" :label-position="labelPosition">
         <b-input
